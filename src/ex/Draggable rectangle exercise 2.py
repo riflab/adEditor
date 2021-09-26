@@ -34,7 +34,7 @@ class DraggableRectangle:
         dy = event.ydata - ypress
         # print(f'x0={x0}, xpress={xpress}, event.xdata={event.xdata}, '
         #       f'dx={dx}, x0+dx={x0+dx}')
-        self.rect.set_x(x0+dx)
+        # self.rect.set_x(x0+dx)
         self.rect.set_y(y0+dy)
 
         self.rect.figure.canvas.draw()
