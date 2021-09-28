@@ -7,36 +7,53 @@ def check_float(val):
 
 
 def read_edi(file):
+    # list_header = [
+    #     'site_name', 'n_frequency'
+    # ]
+
     list_variable = [
         '>FREQ', '>ZROT',
         '>ZXXR', '>ZXXI', '>ZXX.VAR',
         '>ZXYR', '>ZXYI', '>ZXY.VAR',
         '>ZYXR', '>ZYXI', '>ZYX.VAR',
         '>ZYYR', '>ZYYI', '>ZYY.VAR',
+        '>END'
     ]
+
+    site_name = None
+    n_frequency = None
+
+    frequency = []
+
     f = open(file, 'r')
     temp = f.readline()
-    count = 0
+    ind = 0
 
     while True:
-
-        if temp == '':
-            break
-
-        a = (temp.split())
-
+        a = temp.split()
         if len(a) > 0:
-            if a[0] == list_variable[count]:
 
-                print(list_variable[count])
-                while True:
-                    try:
-                        temp = f.readline().split()
-                        b = float(temp[0])
-                        print(b, count, temp[0])
-                    except ValueError:
-                        print("BREAK")
-                        break
-                count += 1
+            if a[0][:6] == 'DATAID':
+                site_name = a[0].split('"')[1]
+
+            if a[0][:5] == 'NFREQ':
+                n_frequency = int(a[0].split('=')[1])
+
+            if a[0] == list_variable[-1]:
+                print('break', list_variable[ind])
+                break
+
+            if a[0] == list_variable[ind]:
+                print(list_variable[ind])
+
+                while len(frequency) < n_frequency:
+                    temp = f.readline()
+                    b = temp.split()
+                    frequency += b
+                    print(list_variable[ind], len(frequency), b)
+                ind += 1
+                frequency = []
+
         temp = f.readline()
 
+    print(site_name, n_frequency, frequency)
