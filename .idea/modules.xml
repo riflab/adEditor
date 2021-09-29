@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> parent of 2d06fde... Merge remote-tracking branch 'origin/main' into main
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectModuleManager">
@@ -6,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/adEditor.iml" filepath="$PROJECT_DIR$/.idea/adEditor.iml" />
     </modules>
   </component>
+<<<<<<< HEAD
 =======
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
@@ -15,4 +19,6 @@
     </modules>
   </component>
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 2d06fde... Merge remote-tracking branch 'origin/main' into main
 </project>
