@@ -5,6 +5,7 @@ version     : 1.0
 release     : 29 September 2021
 
 author      : arif.darmawan@riflab.com
+website     : www.riflab.com
 
 input       : EDI file
 output      : Pandas dataframe containing MT components
