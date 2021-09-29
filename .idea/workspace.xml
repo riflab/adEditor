@@ -1,7 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
 >>>>>>> main
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> parent of 2d06fde... Merge remote-tracking branch 'origin/main' into main
+>>>>>>> layout
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
@@ -60,7 +66,10 @@
     <servers />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> layout
 =======
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
@@ -97,5 +106,10 @@
     <servers />
   </component>
 >>>>>>> Stashed changes
+<<<<<<< HEAD
 >>>>>>> main
+=======
+=======
+>>>>>>> parent of 2d06fde... Merge remote-tracking branch 'origin/main' into main
+>>>>>>> layout
 </project>
