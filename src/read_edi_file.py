@@ -1,3 +1,19 @@
+'''
+
+module      : read_edi_file
+version     : 1.0
+release     : 29 September 2021
+
+author      : arif.darmawan@riflab.com
+
+input       : EDI file
+output      : Pandas dataframe containing MT components
+
+description : EDI file is the SEG Standard for Magnetotelluric Data
+
+'''
+
+
 import pandas as pd
 
 
