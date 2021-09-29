@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.lines import Line2D
+from PyQt5 import QtWidgets
+import sys
 
 
 class DraggablePoint:
@@ -12,7 +14,7 @@ class DraggablePoint:
     def __init__(self, parent, x=0.1, y=0.1, size=0.1):
 
         self.parent = parent
-        # self.point = patches.Ellipse((x, y), size, size * 3, fc='r', alpha=0.5, edgecolor='r')
+        self.point = patches.Ellipse((x, y), size, size * 3, fc='r', alpha=0.5, edgecolor='r')
         self.point = patches.Ellipse((x, y), size[0], size[1], fc='r', alpha=0.5, edgecolor='r')
         self.x = x
         self.y = y
@@ -141,5 +143,5 @@ class DraggablePoint:
 if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
-    ex = MyGraph()
+    ex = DraggablePoint()
     sys.exit(app.exec_())
