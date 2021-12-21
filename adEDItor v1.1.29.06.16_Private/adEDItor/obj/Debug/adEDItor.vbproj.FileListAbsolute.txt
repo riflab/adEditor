@@ -1,0 +1,90 @@
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\bin\Debug\adEDItor.exe.config
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\bin\Debug\adEDItor.exe
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\bin\Debug\adEDItor.pdb
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\bin\Debug\adEDItor.xml
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.Form1.resources
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.Resources.resources
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.exe
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.xml
+C:\Users\darmawan\AppData\Local\Temporary Projects\adEDItor\obj\Debug\adEDItor.pdb
+G:\adEDItor\adEDItor\bin\Debug\adEDItor.exe.config
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.exe
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.xml
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.pdb
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.Resources.resources
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+G:\adEDItor\adEDItor\bin\Debug\adEDItor.exe
+G:\adEDItor\adEDItor\bin\Debug\adEDItor.pdb
+G:\adEDItor\adEDItor\bin\Debug\adEDItor.xml
+G:\adEDItor\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\bin\Debug\adEDItor.exe.config
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.exe
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.xml
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.pdb
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\bin\Debug\adEDItor.exe
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\bin\Debug\adEDItor.pdb
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\bin\Debug\adEDItor.xml
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.Resources.resources
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+C:\Users\darmawan\Desktop\adEDItor\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.exe.config
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.exe
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.xml
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.pdb
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.exe
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.pdb
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.xml
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.Resources.resources
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+D:\gDrive\Software\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.ScaleSettingWindow.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.exe.config
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.exe
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.xml
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.pdb
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.exe
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.pdb
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\bin\Debug\adEDItor.xml
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.Resources.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.ScaleSettingWindow.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.StaticShiftWindow.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.AboutForm.resources
+D:\CODING\[adsoft] adEDItor\adEDItor\adEDItor\obj\Debug\adEDItor.PasswordForm.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\bin\Debug\adEDItor.exe.config
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.exe
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.xml
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.pdb
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\bin\Debug\adEDItor.exe
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\bin\Debug\adEDItor.pdb
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\bin\Debug\adEDItor.xml
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.AboutForm.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.Resources.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.PasswordForm.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.ScaleSettingWindow.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.StaticShiftWindow.resources
+D:\CODING\[adsoft] adEDItor - Copy\adEDItor\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.Cache
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\bin\Debug\adEDItor.exe.config
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\bin\Debug\adEDItor.exe
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\bin\Debug\adEDItor.pdb
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\bin\Debug\adEDItor.xml
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.vbproj.AssemblyReference.cache
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.AboutForm.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.Resources.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.PasswordForm.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.ScaleSettingWindow.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.StaticShiftWindow.resources
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.cache
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.vbproj.CoreCompileInputs.cache
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.exe
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.xml
+D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.pdb
