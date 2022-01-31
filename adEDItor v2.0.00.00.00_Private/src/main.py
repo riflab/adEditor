@@ -1,57 +1,140 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import sys
+from PyQt5 import QtWidgets
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.backends.backend_qt5agg import FigureManagerQT
+import numpy as np
+import pandas as pd
 
 
-class DraggableRectangle:
+class MyFigureCanvas(FigureCanvasQTAgg):
     def __init__(self):
-        self.press_event = None
-        self.connect()
+        super(MyFigureCanvas, self).__init__(Figure())
+        self.status_1 = False
+        self.status_2 = False
 
-    def connect(self):
-        fig.canvas.mpl_connect('button_press_event', self.on_press)
-        fig.canvas.mpl_connect('button_release_event', self.on_release)
-        fig.canvas.mpl_connect('motion_notify_event', self.on_motion)
+        # ax_1 = fig.add_subplot(1, 4, (3, 4))
+        # ax_2 = fig.add_subplot(3, 4, (1, 6))
+        # ax_3 = fig.add_subplot(3, 4, (9, 10))
 
-    def on_pick(self, event):
-        if event.artist != self.point_1:  # check that you clicked on the object you wanted
-            return True
-        if not len(event.ind):  # check the index is valid
-            return True
-        self.press_event = True
-        return True
+        # init class attributes:
+        self.background = None
+        self.draggable = None
+        self.msize = 6
 
-    def on_press(self, event):
-        fig.canvas.mpl_connect('pick_event', self.on_pick)
+        # plot some data:
+        self.data()
+        # self.ax = self.figure.add_subplot(111)
 
-    def on_release(self, event):
-        self.press_event = False
+        self.ax_1 = self.figure.add_subplot(1, 4, (3, 4))
+        self.ax_2 = self.figure.add_subplot(3, 4, (1, 6))
+        self.ax_3 = self.figure.add_subplot(3, 4, (9, 10))
+
+        self.markers_1, = self.ax_1.plot(self.df['xyi'], marker='o', ms=self.msize)
+        self.markers_2, = self.ax_1.plot(self.df['xyr'], marker='+', ms=self.msize)
+
+        self.markers_3, = self.ax_2.plot(self.df['xyr']*self.df['xyi'], marker='+', ms=self.msize)
+        # self.point_3, = self.ax.plot(df['xyi'], 'o-', linewidth=0.9, picker=True, pickradius=5)
+
+        # define event connections:
+        self.mpl_connect('motion_notify_event', self.on_motion)
+        self.mpl_connect('button_press_event', self.on_click)
+        self.mpl_connect('button_release_event', self.on_release)
+
+    def on_click(self, event):
+        if event.button == 1:  # 2 is for middle mouse button
+            # get mouse cursor coordinates in pixels:
+            x = event.x
+            y = event.y
+            # get markers xy coordinate in pixels:
+            xydata_1 = self.ax_1.transData.transform(self.markers_1.get_xydata())
+            xydata_2 = self.ax_1.transData.transform(self.markers_2.get_xydata())
+            xdata_1, ydata_1 = xydata_1.T
+            xdata_2, ydata_2 = xydata_2.T
+            # compute the linear distance between the markers and the cursor:
+            r_1 = ((xdata_1 - x) ** 2 + (ydata_1 - y) ** 2) ** 0.5
+            r_2 = ((xdata_2 - x) ** 2 + (ydata_2 - y) ** 2) ** 0.5
+            if np.min(r_1) < self.msize:
+                # save figure background:
+                self.markers_1.set_visible(False)
+                self.draw()
+                self.background = self.copy_from_bbox(self.ax_1.bbox)
+                self.markers_1.set_visible(True)
+                self.ax_1.draw_artist(self.markers_1)
+                self.update()
+                # store index of draggable marker:
+                self.draggable = np.argmin(r_1)
+                print('xyr')
+                self.status_1 = True
+            elif np.min(r_2) < self.msize:
+                # save figure background:
+                self.markers_2.set_visible(False)
+                self.draw()
+                self.background = self.copy_from_bbox(self.ax_1.bbox)
+                self.markers_2.set_visible(True)
+                self.ax_1.draw_artist(self.markers_2)
+                self.update()
+                # store index of draggable marker:
+                self.draggable = np.argmin(r_2)
+                print('xyi')
+                self.status_2 = True
+            else:
+                self.draggable = None
 
     def on_motion(self, event):
-        if self.press_event is None or self.press_event == False:
-            return
-        print('motion', event.xdata, event.ydata)
+        if self.draggable is not None:
+            if event.xdata and event.ydata:
+                # get markers coordinate in data units:
+                xdata_1, ydata_1 = self.markers_1.get_data()
+                xdata_2, ydata_2 = self.markers_2.get_data()
+                print('motion', event.xdata, event.ydata)
+                if self.status_1 == True:
+                    # change the coordinate of the marker that is
+                    # being dragged to the ones of the mouse cursor:
+                    # xdata[self.draggable] = event.xdata
+                    ydata_1[self.draggable] = event.ydata
+                    # update the data of the artist:
+                    # self.markers.set_xdata(xdata)
+                    self.markers_1.set_ydata(ydata_1)
+                    # update the plot:
+                    self.restore_region(self.background)
+                    self.ax_1.draw_artist(self.markers_1)
+                else:
+                    # change the coordinate of the marker that is
+                    # being dragged to the ones of the mouse cursor:
+                    # xdata[self.draggable] = event.xdata
+                    ydata_2[self.draggable] = event.ydata
+                    # update the data of the artist:
+                    # self.markers.set_xdata(xdata)
+                    self.markers_2.set_ydata(ydata_2)
+                    # update the plot:
+                    self.restore_region(self.background)
+                    self.ax_1.draw_artist(self.markers_2)
+                self.update()
 
-    def plot_graph(self, ax_1, ax_2, ax_3, x, y):
-        self.point_1, = ax_1.plot(x, y, 'o', picker=True, pickradius=5)
-        self.point_2, = ax_2.plot(x, y, 'ro', picker=True, pickradius=5)
-        self.point_3, = ax_3.plot(x, y, 'bo', picker=True, pickradius=5)
+    def on_release(self, event):
+        self.draggable = None
+        self.status_1 = False
+        self.status_2 = False
 
+    def data(self):
+        dat = {'idx': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                'frequency': [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10],
+                'xyr': [1200, 150, 300, 450, 200, 1200, 150, 300, 450, 200],
+                'xyi': [12, 23, 23, 5, 45, 65, 7, 8, 9, 22]
+                }
 
-if __name__ == "__main__":
+        self.df = pd.DataFrame(dat)
+        # df = df.set_index(['idx', 'frequency'], inplace=False)
+        self.df = self.df.set_index('frequency')
 
-    # fig, ax = plt.subplots(2, 2)
-    fig = plt.figure()
+if __name__ == '__main__':
 
-    ax_1 = fig.add_subplot(1, 4, (3, 4))
-    ax_2 = fig.add_subplot(3, 4, (1, 6))
-    ax_3 = fig.add_subplot(3, 4, (9, 10))
+    app = QtWidgets.QApplication(sys.argv)
 
-    x = np.arange(0, 4 * np.pi, 1)  # start,stop,step
-    y = np.sin(x)
+    canvas = MyFigureCanvas()
+    manager = FigureManagerQT(canvas, 1)
+    manager.show()
 
-    drag = DraggableRectangle()
-    drag.plot_graph(ax_1, ax_2, ax_3, x, y)
-    # fig.canvas.mpl_connect('pick_event', drag.on_pick)
+    sys.exit(app.exec_())
 
-    plt.show()
