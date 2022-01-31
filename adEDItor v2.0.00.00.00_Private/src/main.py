@@ -10,6 +10,8 @@ import pandas as pd
 class MyFigureCanvas(FigureCanvasQTAgg):
     def __init__(self):
         super(MyFigureCanvas, self).__init__(Figure())
+        self.status_1 = False
+        self.status_2 = False
 
         # ax_1 = fig.add_subplot(1, 4, (3, 4))
         # ax_2 = fig.add_subplot(3, 4, (1, 6))
@@ -28,7 +30,10 @@ class MyFigureCanvas(FigureCanvasQTAgg):
         self.ax_2 = self.figure.add_subplot(3, 4, (1, 6))
         self.ax_3 = self.figure.add_subplot(3, 4, (9, 10))
 
-        self.markers, = self.ax_1.plot(self.df['xyi'], marker='o', ms=self.msize)
+        self.markers_1, = self.ax_1.plot(self.df['xyi'], marker='o', ms=self.msize)
+        self.markers_2, = self.ax_1.plot(self.df['xyr'], marker='+', ms=self.msize)
+
+        self.markers_3, = self.ax_2.plot(self.df['xyr']*self.df['xyi'], marker='+', ms=self.msize)
         # self.point_3, = self.ax.plot(df['xyi'], 'o-', linewidth=0.9, picker=True, pickradius=5)
 
         # define event connections:
@@ -42,20 +47,37 @@ class MyFigureCanvas(FigureCanvasQTAgg):
             x = event.x
             y = event.y
             # get markers xy coordinate in pixels:
-            xydata = self.ax_1.transData.transform(self.markers.get_xydata())
-            xdata, ydata = xydata.T
+            xydata_1 = self.ax_1.transData.transform(self.markers_1.get_xydata())
+            xydata_2 = self.ax_1.transData.transform(self.markers_2.get_xydata())
+            xdata_1, ydata_1 = xydata_1.T
+            xdata_2, ydata_2 = xydata_2.T
             # compute the linear distance between the markers and the cursor:
-            r = ((xdata - x)**2 + (ydata - y)**2)**0.5
-            if np.min(r) < self.msize:
+            r_1 = ((xdata_1 - x) ** 2 + (ydata_1 - y) ** 2) ** 0.5
+            r_2 = ((xdata_2 - x) ** 2 + (ydata_2 - y) ** 2) ** 0.5
+            if np.min(r_1) < self.msize:
                 # save figure background:
-                self.markers.set_visible(False)
+                self.markers_1.set_visible(False)
                 self.draw()
                 self.background = self.copy_from_bbox(self.ax_1.bbox)
-                self.markers.set_visible(True)
-                self.ax_1.draw_artist(self.markers)
+                self.markers_1.set_visible(True)
+                self.ax_1.draw_artist(self.markers_1)
                 self.update()
                 # store index of draggable marker:
-                self.draggable = np.argmin(r)
+                self.draggable = np.argmin(r_1)
+                print('xyr')
+                self.status_1 = True
+            elif np.min(r_2) < self.msize:
+                # save figure background:
+                self.markers_2.set_visible(False)
+                self.draw()
+                self.background = self.copy_from_bbox(self.ax_1.bbox)
+                self.markers_2.set_visible(True)
+                self.ax_1.draw_artist(self.markers_2)
+                self.update()
+                # store index of draggable marker:
+                self.draggable = np.argmin(r_2)
+                print('xyi')
+                self.status_2 = True
             else:
                 self.draggable = None
 
@@ -63,22 +85,37 @@ class MyFigureCanvas(FigureCanvasQTAgg):
         if self.draggable is not None:
             if event.xdata and event.ydata:
                 # get markers coordinate in data units:
-                xdata, ydata = self.markers.get_data()
+                xdata_1, ydata_1 = self.markers_1.get_data()
+                xdata_2, ydata_2 = self.markers_2.get_data()
                 print('motion', event.xdata, event.ydata)
-                # change the coordinate of the marker that is
-                # being dragged to the ones of the mouse cursor:
-                # xdata[self.draggable] = event.xdata
-                ydata[self.draggable] = event.ydata
-                # update the data of the artist:
-                # self.markers.set_xdata(xdata)
-                self.markers.set_ydata(ydata)
-                # update the plot:
-                self.restore_region(self.background)
-                self.ax_1.draw_artist(self.markers)
+                if self.status_1 == True:
+                    # change the coordinate of the marker that is
+                    # being dragged to the ones of the mouse cursor:
+                    # xdata[self.draggable] = event.xdata
+                    ydata_1[self.draggable] = event.ydata
+                    # update the data of the artist:
+                    # self.markers.set_xdata(xdata)
+                    self.markers_1.set_ydata(ydata_1)
+                    # update the plot:
+                    self.restore_region(self.background)
+                    self.ax_1.draw_artist(self.markers_1)
+                else:
+                    # change the coordinate of the marker that is
+                    # being dragged to the ones of the mouse cursor:
+                    # xdata[self.draggable] = event.xdata
+                    ydata_2[self.draggable] = event.ydata
+                    # update the data of the artist:
+                    # self.markers.set_xdata(xdata)
+                    self.markers_2.set_ydata(ydata_2)
+                    # update the plot:
+                    self.restore_region(self.background)
+                    self.ax_1.draw_artist(self.markers_2)
                 self.update()
 
     def on_release(self, event):
         self.draggable = None
+        self.status_1 = False
+        self.status_2 = False
 
     def data(self):
         dat = {'idx': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
