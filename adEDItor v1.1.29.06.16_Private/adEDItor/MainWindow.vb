@@ -359,7 +359,7 @@ Public Class MainWindow
         Dim openFileDialog1 As New OpenFileDialog()
         Dim OpenFileName As String
 
-        openFileDialog1.InitialDirectory = "D:\EDI3Dngebel"
+        openFileDialog1.InitialDirectory = "D:\"
         openFileDialog1.Filter = "EDI files (*.edi)|*.edi"
         openFileDialog1.FilterIndex = 1
         openFileDialog1.RestoreDirectory = True
@@ -1061,7 +1061,7 @@ Public Class MainWindow
         Dim objStreamWriter As StreamWriter
         Dim saveFileDialog1 As New SaveFileDialog()
         Dim i As Integer
-        saveFileDialog1.InitialDirectory = "D:\EDI3D"
+        saveFileDialog1.InitialDirectory = "D:\"
         saveFileDialog1.Filter = "EDI files (*.edi)|*.edi"
         saveFileDialog1.FilterIndex = 1
         saveFileDialog1.RestoreDirectory = True

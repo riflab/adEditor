@@ -88,3 +88,21 @@ D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\D
 D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.exe
 D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.xml
 D:\OneDrive - RifLab\Software\Coding\[adsoft] adEDItor\adEDItor_1\adEDItor\obj\Debug\adEDItor.pdb
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\bin\Debug\adEDItor.exe.config
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\bin\Debug\adEDItor.exe
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\bin\Debug\adEDItor.pdb
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\bin\Debug\adEDItor.xml
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.vbproj.AssemblyReference.cache
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.AboutForm.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.DataWindow.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.MainWindow.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.Resources.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.PasswordForm.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.ScaleSettingWindow.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.StaticShiftWindow.resources
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.vbproj.GenerateResource.cache
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.vbproj.CoreCompileInputs.cache
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.exe
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.xml
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.pdb
+D:\OneDrive - RifLab\RifLab Project\adEditor\adEDItor v1.1.29.06.16_Private\adEDItor\obj\Debug\adEDItor.vbproj.SuggestedBindingRedirects.cache
