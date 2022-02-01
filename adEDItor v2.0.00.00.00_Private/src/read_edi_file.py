@@ -23,6 +23,12 @@ def read_edi(file):
     #     'site_name', 'n_frequency'
     # ]
 
+    header = {
+        "DATAID = ": " ",
+        "ACQBY = ": "AFD",
+        "FILEBY = ": "AFD"
+    }
+
     list_variable = [
         '>FREQ',
         '>ZROT',
@@ -65,7 +71,7 @@ def read_edi(file):
         if len(a) > 0:
 
             if a[0][:6] == 'DATAID':
-                site_name = a[0].split('"')[1]
+                header["DATAID = "] = a[0].split('"')[1]
 
             if a[0][:5] == 'NFREQ':
                 n_frequency = int(a[0].split('=')[1])
@@ -87,7 +93,9 @@ def read_edi(file):
 
         temp = f.readline()
 
-    print(site_name, n_frequency)
-    print(df)
+    # print(site_name, n_frequency)
+    # print(df)
+    # df = df.set_index('>FREQ')
+    df = df.astype(float)
 
-    return df
+    return df, header
