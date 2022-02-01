@@ -9,9 +9,9 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('main_window.ui', self)  # Load the .ui file
 
-        # self.action_open_edi_file.triggered.connect(lambda: self.action_open_edi_file_clicked())
-        read_edi('/home/riflab/Documents/adEditor/src/MT_001.edi')
-        # self.showMaximized()
+        self.action_open_edi_file.triggered.connect(lambda: self.action_open_edi_file_clicked())
+        # read_edi('MT_001.edi')
+        self.showMaximized()
 
     def action_open_edi_file_clicked(self):
         options = QFileDialog.Options()
