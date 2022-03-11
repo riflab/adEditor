@@ -3,187 +3,242 @@ from PyQt5 import QtWidgets
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_qt5agg import FigureManagerQT
-import numpy as np
 # from read_edi_file import read_edi
 from configure import plot_setting
+from calculation import *
 
 
 class MyFigureCanvas(FigureCanvasQTAgg):
-    def __init__(self, df, header):
+    def __init__(self, df, header, real, imaginary, rho, phs, label):
         super(MyFigureCanvas, self).__init__(Figure())
         self.status_1i = False
         self.status_1r = False
         self.status_2 = False
+        self.status_3 = False
 
         # init class attributes:
-        self.background = None
-        self.draggable = None
+        self.background_1 = None
+        self.background_2 = None
+        self.background_3 = None
+        self.index_of_frequency = None
         self.marker_size = 6
 
         # read some data:
         self.df = df
         self.header = header
+        self.real = real
+        self.imaginary = imaginary
+        self.rho = rho
+        self.phs = phs
 
         self.ax_1 = self.figure.add_subplot(1, 4, (3, 4))
         self.ax_2 = self.figure.add_subplot(3, 4, (1, 6))
         self.ax_3 = self.figure.add_subplot(3, 4, (9, 10))
         self.figure.tight_layout()
 
-        self.markers_1r, = self.ax_1.plot(self.df['>FREQ'], self.df['>ZXYR'].abs(),
-                                          marker='+',
-                                          c='r',
+        ''' calculation '''
+        self.app_rho = cal_app_rho(self.df['>FREQ'],
+                                   self.df[self.real],
+                                   self.df[self.imaginary])
+        self.pha = cal_pha(self.df[self.real],
+                           self.df[self.imaginary])
+
+        ''' plot '''
+        self.markers_1r, = self.ax_1.plot(self.df['>FREQ'],
+                                          self.df[self.real].abs(),
+                                          marker='.',
+                                          c='m',
                                           ms=self.marker_size,
                                           label='Real')
-        self.markers_1i, = self.ax_1.plot(self.df['>FREQ'], self.df['>ZXYI'].abs(),
-                                          marker='x',
-                                          c='b',
+        self.markers_1i, = self.ax_1.plot(self.df['>FREQ'],
+                                          self.df[self.imaginary].abs(),
+                                          marker='.',
+                                          c='c',
                                           ms=self.marker_size,
-                                          label='Imag')
-
-        self.markers_2, = self.ax_2.plot(self.df['>FREQ'], self.df['>ZXYR']*self.df['>ZXYI'],
-                                         marker='x',
+                                          label='Imaginary')
+        self.markers_2, = self.ax_2.plot(self.df['>FREQ'], self.app_rho,
+                                         marker='.',
+                                         c='r',
                                          ms=self.marker_size,
-                                         label='XY')
-        # self.point_3, = self.ax.plot(df['xyi'], 'o-', linewidth=0.9, picker=True, pickradius=5)
+                                         label=label)
+        self.markers_3, = self.ax_3.plot(self.df['>FREQ'], self.pha,
+                                         marker='.',
+                                         c='r',
+                                         ms=self.marker_size,
+                                         label=label)
 
         plot_setting(self.ax_1, self.ax_2, self.ax_3)
         # define event connections:
-        self.mpl_connect('motion_notify_event', self.on_motion)
         self.mpl_connect('button_press_event', self.on_click)
+        self.mpl_connect('motion_notify_event', self.on_motion)
         self.mpl_connect('button_release_event', self.on_release)
 
     def on_click(self, event):
+
+        """ this section is only implemented on the control chart """
         if event.button == 1:  # 2 is for middle mouse button
-            # get mouse cursor coordinates in pixels:
+
+            ''' get mouse cursor coordinates in pixels: '''
             x = event.x
             y = event.y
-            # get markers xy coordinate in pixels:
-            xydata_1i = self.ax_1.transData.transform(self.markers_1i.get_xydata())
-            xydata_1r = self.ax_1.transData.transform(self.markers_1r.get_xydata())
-            # xydata_2 = self.ax_2.transData.transform(self.markers_2.get_xydata())
-            xdata_1i, ydata_1i = xydata_1i.T
-            xdata_1r, ydata_1r = xydata_1r.T
-            # xdata_2, ydata_2 = xydata_2.T
-            # compute the linear distance between the markers and the cursor:
+
+            ''' get markers xy coordinate in pixels: '''
+            xy_data_1i = self.ax_1.transData.transform(self.markers_1i.get_xydata())
+            xy_data_1r = self.ax_1.transData.transform(self.markers_1r.get_xydata())
+
+            xdata_1i, ydata_1i = xy_data_1i.T
+            xdata_1r, ydata_1r = xy_data_1r.T
+
+            ''' compute the linear distance between the markers and the cursor: '''
             r_1i = ((xdata_1i - x) ** 2 + (ydata_1i - y) ** 2) ** 0.5
             r_1r = ((xdata_1r - x) ** 2 + (ydata_1r - y) ** 2) ** 0.5
-            # r_2 = ((xdata_2 - x) ** 2 + (ydata_2 - y) ** 2) ** 0.5
+
             if np.min(r_1i) < self.marker_size:
                 # save figure background:
                 self.markers_1i.set_visible(False)
+                self.markers_2.set_visible(False)
+                self.markers_3.set_visible(False)
                 self.draw()
                 self.background_1 = self.copy_from_bbox(self.ax_1.bbox)
+                self.background_2 = self.copy_from_bbox(self.ax_2.bbox)
+                self.background_3 = self.copy_from_bbox(self.ax_3.bbox)
                 self.markers_1i.set_visible(True)
+                self.markers_2.set_visible(True)
+                self.markers_3.set_visible(True)
                 self.ax_1.draw_artist(self.markers_1i)
+                self.ax_2.draw_artist(self.markers_2)
+                self.ax_3.draw_artist(self.markers_3)
                 self.update()
                 # store index of draggable marker:
-                self.draggable = np.argmin(r_1i)
+                self.index_of_frequency = np.argmin(r_1i)
                 self.status_1i = True
-            # elif np.min(r_2) < self.marker_size:
-            #     # save figure background:
-            #     self.markers_2.set_visible(False)
-            #     self.draw()
-            #     self.background_2 = self.copy_from_bbox(self.ax_2.bbox)
-            #     self.markers_2.set_visible(True)
-            #     self.ax_2.draw_artist(self.markers_2)
-            #     self.update()
-            #     # store index of draggable marker:
-            #     self.draggable = np.argmin(r_2)
-            #     self.status_2 = True
+
             elif np.min(r_1r) < self.marker_size:
                 # save figure background:
                 self.markers_1r.set_visible(False)
+                self.markers_2.set_visible(False)
+                self.markers_3.set_visible(False)
                 self.draw()
                 self.background_1 = self.copy_from_bbox(self.ax_1.bbox)
+                self.background_2 = self.copy_from_bbox(self.ax_2.bbox)
+                self.background_3 = self.copy_from_bbox(self.ax_3.bbox)
                 self.markers_1r.set_visible(True)
+                self.markers_2.set_visible(True)
+                self.markers_3.set_visible(True)
                 self.ax_1.draw_artist(self.markers_1r)
+                self.ax_2.draw_artist(self.markers_2)
+                self.ax_3.draw_artist(self.markers_3)
                 self.update()
                 # store index of draggable marker:
-                self.draggable = np.argmin(r_1r)
+                self.index_of_frequency = np.argmin(r_1r)
                 self.status_1r = True
-            # elif np.min(r_2) < self.marker_size:
-            #     # save figure background:
-            #     self.markers_2.set_visible(False)
-            #     self.draw()
-            #     self.background_2 = self.copy_from_bbox(self.ax_2.bbox)
-            #     self.markers_2.set_visible(True)
-            #     self.ax_2.draw_artist(self.markers_2)
-            #     self.update()
-            #     # store index of draggable marker:
-            #     self.draggable = np.argmin(r_2)
-            #     self.status_2 = True
             else:
-                self.draggable = None
-            self.markers_2.set_visible(False)
-            self.draw()
-            self.background_2 = self.copy_from_bbox(self.ax_2.bbox)
-            self.markers_2.set_visible(True)
-            self.ax_2.draw_artist(self.markers_2)
-            self.update()
+                self.index_of_frequency = None
 
     def on_motion(self, event):
-        if self.draggable is not None:
+        if self.index_of_frequency is not None and event.xdata and event.ydata and event.xdata and event.ydata:
             if event.xdata and event.ydata:
-                # get markers coordinate in data units:
+                '''  get markers coordinate in data units: '''
                 xdata_1i, ydata_1i = self.markers_1i.get_data()
                 xdata_1r, ydata_1r = self.markers_1r.get_data()
-                xdata_2, ydata_2 = self.markers_2.get_data()
+                xdata_2, ydata_2 = self.markers_2.get_data()  # app resistivity curve
+                xdata_3, ydata_3 = self.markers_3.get_data()  # phase
 
-                print('motion', event.xdata, event.ydata)
-                if self.status_1i == True:
-                    # change the coordinate of the marker that is
-                    # being dragged to the ones of the mouse cursor:
+                # print('motion', event.xdata, event.ydata)
+
+                if self.status_1i == True and self.status_1r == False:
+
+                    ''' change the coordinate of the marker that is being dragged to the ones of the mouse cursor: '''
                     # xdata[self.draggable] = event.xdata
-                    ydata_1i[self.draggable] = event.ydata
-                    # update the data of the artist:
+                    ydata_1i[self.index_of_frequency] = event.ydata
+
+                    ''' update the data of the artist: '''
                     # self.markers.set_xdata(xdata)
                     self.markers_1i.set_ydata(ydata_1i)
-                    # update the plot:
+
+                    ''' update the plot: '''
                     self.restore_region(self.background_1)
                     self.ax_1.draw_artist(self.markers_1i)
 
-                    ### rho curve
-                    # change the coordinate of the marker that is
-                    # being dragged to the ones of the mouse cursor:
+                    ''' rho curve '''
+                    ''' change the coordinate of the marker that is being dragged to the ones of the mouse cursor: '''
                     # xdata[self.draggable] = event.xdata
-                    ydata_2[self.draggable] = event.ydata * ydata_1r[self.draggable]
-                    print(ydata_2)
-                    # update the data of the artist:
+
+                    ''' calculation '''
+
+                    self.app_rho = cal_app_rho(self.df['>FREQ'][self.index_of_frequency],
+                                               self.df[self.real][self.index_of_frequency],
+                                               event.ydata)
+                    self.pha = cal_pha(self.df[self.real][self.index_of_frequency],
+                                       event.ydata)
+
+                    ydata_2[self.index_of_frequency] = self.app_rho
+                    ydata_3[self.index_of_frequency] = self.pha
+
+                    ''' update the data of the artist: '''
                     # self.markers.set_xdata(xdata)
                     self.markers_2.set_ydata(ydata_2)
-                    # update the plot:
+                    self.markers_3.set_ydata(ydata_3)
+
+                    ''' update the plot: '''
                     self.restore_region(self.background_2)
                     self.ax_2.draw_artist(self.markers_2)
 
-                elif self.status_1r == True:
-                    # change the coordinate of the marker that is
-                    # being dragged to the ones of the mouse cursor:
+                    self.restore_region(self.background_3)
+                    self.ax_3.draw_artist(self.markers_3)
+
+                elif self.status_1r == True and self.status_1i == False:
+                    ''' change the coordinate of the marker that is being dragged to the ones of the mouse cursor: '''
                     # xdata[self.draggable] = event.xdata
-                    ydata_1r[self.draggable] = event.ydata
-                    # update the data of the artist:
+                    ydata_1r[self.index_of_frequency] = event.ydata
+
+                    ''' update the data of the artist: '''
                     # self.markers.set_xdata(xdata)
                     self.markers_1r.set_ydata(ydata_1r)
-                    # update the plot:
+
+                    ''' update the plot: '''
                     self.restore_region(self.background_1)
                     self.ax_1.draw_artist(self.markers_1r)
 
-                    ### rho curve
-                    # change the coordinate of the marker that is
-                    # being dragged to the ones of the mouse cursor:
+                    ''' rho curve '''
+                    ''' change the coordinate of the marker that is being dragged to the ones of the mouse cursor: '''
                     # xdata[self.draggable] = event.xdata
-                    ydata_2[self.draggable] = event.ydata * ydata_1i[self.draggable]
-                    print(ydata_2)
-                    # update the data of the artist:
+
+                    ''' calculation '''
+
+                    self.app_rho = cal_app_rho(self.df['>FREQ'][self.index_of_frequency],
+                                               event.ydata,
+                                               self.df[self.imaginary][self.index_of_frequency])
+                    self.pha = cal_pha(event.ydata,
+                                       self.df[self.imaginary][self.index_of_frequency])
+
+                    ydata_2[self.index_of_frequency] = self.app_rho
+                    ydata_3[self.index_of_frequency] = self.pha
+
+                    ''' update the data of the artist: '''
                     # self.markers.set_xdata(xdata)
                     self.markers_2.set_ydata(ydata_2)
-                    # update the plot:
+                    self.markers_3.set_ydata(ydata_3)
+
+                    ''' update the plot: '''
                     self.restore_region(self.background_2)
                     self.ax_2.draw_artist(self.markers_2)
+                    self.restore_region(self.background_3)
+                    self.ax_3.draw_artist(self.markers_3)
 
                 self.update()
 
     def on_release(self, event):
-        self.draggable = None
+        if self.status_1i == True and self.status_1r == False:
+            self.df.at[self.index_of_frequency, self.imaginary] = event.ydata
+        if self.status_1r == True and self.status_1i == False:
+            self.df.at[self.index_of_frequency, self.real] = event.ydata
+
+        if self.status_1i == True or self.status_1r == True:
+            self.df.at[self.index_of_frequency, self.rho] = self.app_rho
+            self.df.at[self.index_of_frequency, self.phs] = self.pha
+
+        self.index_of_frequency = None
         self.status_1i = False
         self.status_1r = False
         self.status_2 = False
@@ -193,7 +248,6 @@ class MyFigureCanvas(FigureCanvasQTAgg):
 
 
 if __name__ == '__main__':
-
     app = QtWidgets.QApplication(sys.argv)
 
     canvas = MyFigureCanvas()
@@ -201,4 +255,3 @@ if __name__ == '__main__':
     manager.show()
 
     sys.exit(app.exec_())
-

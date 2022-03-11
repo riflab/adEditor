@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def plot_setting(ax1, ax2, ax3):
     ax1.loglog()
     # ax1.set_xlim(0.001, 1000)
@@ -12,6 +15,7 @@ def plot_setting(ax1, ax2, ax3):
     ax1.autoscale(axis='x')
     ax1.autoscale(axis='y')
     ax1.legend()
+    ax1.axis('equal')
 
     ax2.loglog()
     # ax2.set_xlim(0.001, 1000)
@@ -26,10 +30,12 @@ def plot_setting(ax1, ax2, ax3):
     ax2.autoscale(axis='x')
     ax2.autoscale(axis='y')
     ax2.legend()
+    ax2.axis('equal')
 
     ax3.semilogx()
     # ax3.set_xlim(0.001, 1000)
-    # ax3.set_ylim(0, 90)
+    # ax3.set_ylim(-360, 360, 90)
+    ax3.set_yticks(np.arange(-180, 180.1, 90))
     ax3.set_xlabel('Frequency (Hz)', fontsize=8)
     ax3.set_ylabel('Phase (Degree)', fontsize=8)
     # ax1.yaxis.tick_right()
@@ -38,6 +44,6 @@ def plot_setting(ax1, ax2, ax3):
     ax3.grid(which='both', alpha=0.2)
     # ax3.legend(['Apparent Resistivity'])
     ax3.autoscale(axis='x')
-    ax3.autoscale(axis='y')
+    # ax3.autoscale(axis='y')
     ax3.legend()
 
