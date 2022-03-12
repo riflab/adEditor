@@ -2,24 +2,26 @@ import numpy as np
 
 
 def plot_setting(ax1, ax2, ax3, label):
-    if label == 'XY' or label == 'YX':
-        ax1.loglog()
-    elif label == 'XX' or label == 'YY':
-        ax1.semilogx()
-    # ax1.set_xlim(0.0001, 10000)
-    # ax1.set_ylim(1, 100000)
-    ax1.set_xlabel('Frequency (Hz)', fontsize=8)
-    ax1.set_ylabel('Zxy', rotation=90, fontsize=8)
-    # ax1.yaxis.tick_right()
-    # ax1.yaxis.set_label_position("right")
-    ax1.invert_xaxis()
-    ax1.grid(which='both', alpha=0.2)
-    # ax1.legend(['Real', 'Imag'])
-    ax1.autoscale(axis='x')
-    ax1.autoscale(axis='y')
-    ax1.legend()
-    ax1.axis('equal')
-    ax1.set_aspect(1)
+
+    if label and ax1:
+        if label == 'XY' or label == 'YX':
+            ax1.loglog()
+        elif label == 'XX' or label == 'YY':
+            ax1.semilogx()
+        # ax1.set_xlim(0.0001, 10000)
+        # ax1.set_ylim(1, 100000)
+        ax1.set_xlabel('Frequency (Hz)', fontsize=8)
+        ax1.set_ylabel('Zxy', rotation=90, fontsize=8)
+        # ax1.yaxis.tick_right()
+        # ax1.yaxis.set_label_position("right")
+        ax1.invert_xaxis()
+        ax1.grid(which='both', alpha=0.2)
+        # ax1.legend(['Real', 'Imag'])
+        ax1.autoscale(axis='x')
+        ax1.autoscale(axis='y')
+        ax1.legend()
+        ax1.axis('equal')
+        ax1.set_aspect(1)
 
     ax2.loglog()
     # ax2.set_xlim(0.001, 1000)
@@ -55,5 +57,8 @@ def plot_setting(ax1, ax2, ax3, label):
     '''
     to share and connect axis-x
     '''
-    ax1.sharex(ax2)
+    # ax1.sharex(ax2)
     ax2.sharex(ax3)
+
+    if label == None and ax1 == None:
+        ax2.set_ylim(1, 1000)

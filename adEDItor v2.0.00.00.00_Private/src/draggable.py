@@ -9,7 +9,7 @@ from calculation import *
 
 
 class MyFigureCanvas(FigureCanvasQTAgg):
-    def __init__(self, df, header, real, imaginary, rho, phs, label):
+    def __init__(self, df, label):
         super(MyFigureCanvas, self).__init__(Figure(tight_layout=True))
 
         # init status
@@ -28,77 +28,60 @@ class MyFigureCanvas(FigureCanvasQTAgg):
 
         # init data parameter
         self.df = df
-        self.header = header
-        self.real = real
-        self.imaginary = imaginary
-        self.rho = rho
-        self.phs = phs
+        other_rho = None
+        other_phs = None
+        other_label = None
+        other_marker = None
+        # self.header = header
+        # self.real = real
+        # self.imaginary = imaginary
+        # self.rho = rho
+        # self.phs = phs
 
         c = None
-        self.deg = None
         marker = None
         if label == 'XX':
             c = 'gold'
-            marker = '.'
-            self.deg = 0
+            marker = '+'
+            self.real = '>ZXXR'
+            self.imaginary = '>ZXXI'
+            self.rho = '>RHOXX'
+            self.phs = '>PHSXX'
+            other_rho = ['>RHOXY', '>RHOYX', '>RHOYY']
+            other_phs = ['>PHSXY', '>PHSYX', '>PHSYY']
+            other_label = ['XY', 'YX', 'YY']
+            other_marker = ['o', 's', 'x']
         elif label == 'XY':
             c = 'r'
-            marker = '.'
-            self.deg = 0
+            marker = 'o'
         elif label == 'YX':
             c = 'b'
-            marker = '.'
-            self.deg = 180
+            marker = 's'
         elif label == 'YY':
             c = 'lime'
-            marker = '.'
-            self.deg = 0
-
-        # self.df['>ZXXR'] = self.df['>ZXXR'].abs()
-        # self.df['>ZXXI'] = self.df['>ZXXI'].abs()
-        self.df['>ZXYR'] = self.df['>ZXYR'].abs()
-        self.df['>ZXYI'] = self.df['>ZXYI'].abs()
-        self.df['>ZYXR'] = self.df['>ZYXR'].abs()
-        self.df['>ZYXI'] = self.df['>ZYXI'].abs()
-        # self.df['>ZYYR'] = self.df['>ZYYR'].abs()
-        # self.df['>ZYYI'] = self.df['>ZYYI'].abs()
+            marker = 'x'
 
         ''' add figure '''
         self.ax_1 = self.figure.add_subplot(1, 4, (3, 4))
         self.ax_2 = self.figure.add_subplot(3, 4, (1, 6))
         self.ax_3 = self.figure.add_subplot(3, 4, (9, 10))
 
-        ''' calculation '''
-        self.app_rho = cal_app_rho(self.df['>FREQ'],
-                                   self.df[self.real],
-                                   self.df[self.imaginary])
-        self.pha = cal_pha(self.df[self.real],
-                           self.df[self.imaginary],
-                           self.deg)
-
         ''' plot '''
-        self.markers_1r, = self.ax_1.plot(self.df['>FREQ'],
-                                          self.df[self.real],
-                                          marker='.',
-                                          c='m',
-                                          ms=self.marker_size,
-                                          label='Real')
-        self.markers_1i, = self.ax_1.plot(self.df['>FREQ'],
-                                          self.df[self.imaginary],
-                                          marker='.',
-                                          c='c',
-                                          ms=self.marker_size,
-                                          label='Imaginary')
-        self.markers_2, = self.ax_2.plot(self.df['>FREQ'], self.app_rho,
-                                         marker=marker,
-                                         c=c,
-                                         ms=self.marker_size,
-                                         label=label)
-        self.markers_3, = self.ax_3.plot(self.df['>FREQ'], self.pha,
-                                         marker=marker,
-                                         c=c,
-                                         ms=self.marker_size,
-                                         label=label)
+        x = self.df['>FREQ']
+        y = self.df[self.real]
+        self.markers_1r, = self.ax_1.plot(x, y, marker='.', c='m', ms=self.marker_size, label='Real')
+        y = self.df[self.imaginary]
+        self.markers_1i, = self.ax_1.plot(x, y, marker='.', c='c', ms=self.marker_size, label='Imaginary')
+        y = self.df[self.rho]
+        self.markers_2, = self.ax_2.plot(x, y, marker=marker, c=c, ms=self.marker_size, label=label)
+        y = self.df[self.phs]
+        self.markers_3, = self.ax_3.plot(x, y, marker=marker, c=c, ms=self.marker_size, label=label)
+
+        for i in range(3):
+            y = self.df[other_rho[i]]
+            self.ax_2.plot(x, y, marker=other_marker[i], c='grey', alpha=0.2, ms=4, label=other_label[i])
+            y = self.df[other_phs[i]]
+            self.ax_3.plot(x, y, marker=other_marker[i], c='grey', alpha=0.2, ms=4, label=other_label[i])
 
         plot_setting(self.ax_1, self.ax_2, self.ax_3, label)
 
@@ -221,8 +204,7 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                                                self.df[self.real][self.index_of_frequency],
                                                event.ydata)
                     self.pha = cal_pha(self.df[self.real][self.index_of_frequency],
-                                       event.ydata,
-                                       self.deg)
+                                       event.ydata)
 
                     ydata_2[self.index_of_frequency] = self.app_rho
                     ydata_3[self.index_of_frequency] = self.pha
@@ -262,8 +244,7 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                                                event.ydata,
                                                self.df[self.imaginary][self.index_of_frequency])
                     self.pha = cal_pha(event.ydata,
-                                       self.df[self.imaginary][self.index_of_frequency],
-                                       self.deg)
+                                       self.df[self.imaginary][self.index_of_frequency])
 
                     ydata_2[self.index_of_frequency] = self.app_rho
                     ydata_3[self.index_of_frequency] = self.pha
@@ -281,20 +262,20 @@ class MyFigureCanvas(FigureCanvasQTAgg):
 
                 self.update()
 
-    def on_release(self, event):
-        if self.status_1i == True and self.status_1r == False:
-            self.df.at[self.index_of_frequency, self.imaginary] = event.ydata
-        if self.status_1r == True and self.status_1i == False:
-            self.df.at[self.index_of_frequency, self.real] = event.ydata
-
-        if self.status_1i == True or self.status_1r == True:
-            self.df.at[self.index_of_frequency, self.rho] = self.app_rho
-            self.df.at[self.index_of_frequency, self.phs] = self.pha
-
-        self.index_of_frequency = None
-        self.status_1i = False
-        self.status_1r = False
-        self.status_2 = False
+    # def on_release(self, event):
+    #     if self.status_1i == True and self.status_1r == False:
+    #         self.df.at[self.index_of_frequency, self.imaginary] = event.ydata
+    #     if self.status_1r == True and self.status_1i == False:
+    #         self.df.at[self.index_of_frequency, self.real] = event.ydata
+    #
+    #     if self.status_1i == True or self.status_1r == True:
+    #         self.df.at[self.index_of_frequency, self.rho] = self.app_rho
+    #         self.df.at[self.index_of_frequency, self.phs] = self.pha
+    #
+    #     self.index_of_frequency = None
+    #     self.status_1i = False
+    #     self.status_1r = False
+    #     self.status_2 = False
 
     # def data(self):
     #     self.df, self.header = read_edi('MT_001.edi')
@@ -303,7 +284,7 @@ class MyFigureCanvas(FigureCanvasQTAgg):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    canvas = MyFigureCanvas('df', 'header', 'real', 'imaginary', 'rho', 'phs', 'label')
+    canvas = MyFigureCanvas('df', 'label')
     manager = FigureManagerQT(canvas, 1)
     manager.show()
 

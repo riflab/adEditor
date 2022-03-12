@@ -8,6 +8,8 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 import sys
 from read_edi_file import read_edi
 import draggable
+import only_plot
+from calculation import *
 
 
 class Ui(QtWidgets.QMainWindow):
@@ -18,7 +20,6 @@ class Ui(QtWidgets.QMainWindow):
         self.marker_size = 6
 
         self.action_open_edi_file.triggered.connect(lambda: self.action_open_edi_file_clicked())
-        # self.df, self.header = read_edi('MTCU001A.edi')
         self.df, self.header = read_edi('../data/MT-001.edi')
 
         # self.commandLinkButtonRun.clicked.connect(lambda: self.button_click())
@@ -27,58 +28,64 @@ class Ui(QtWidgets.QMainWindow):
         # self.actionAbout.triggered.connect(lambda: form_about())
         # self.actionTutorial.triggered.connect(lambda: open_web_browser())
 
-        # XX --------------------------------------------------------------------------------------------
-        self.canvas_xx = draggable.MyFigureCanvas(self.df, self.header,
-                                                  '>ZXXR',
-                                                  '>ZXXI',
-                                                  '>RHOXX',
-                                                  '>PHSXX',
-                                                  'XX')
+        ''' data preparation '''
+        self.df = data_preparation(self.df)
+
+        '''  XX  '''
+        self.canvas_xx = draggable.MyFigureCanvas(self.df, 'XX')
         self.toolbar_xx = NavigationToolbar(self.canvas_xx, self)
 
         self.verticalLayout_xx.addWidget(self.toolbar_xx, 1)
         self.verticalLayout_xx.addWidget(self.canvas_xx, 100)
 
         # -----------------------------------------------------------------------------------------------
-
-        # XY --------------------------------------------------------------------------------------------
-        self.canvas_xy = draggable.MyFigureCanvas(self.df, self.header,
-                                                  '>ZXYR',
-                                                  '>ZXYI',
-                                                  '>RHOXY',
-                                                  '>PHSXY',
-                                                  'XY')
-        self.toolbar_xy = NavigationToolbar(self.canvas_xy, self)
-
-        self.verticalLayout_xy.addWidget(self.toolbar_xy, 1)
-        self.verticalLayout_xy.addWidget(self.canvas_xy, 100)
-
-        # -----------------------------------------------------------------------------------------------
-
-        # yx --------------------------------------------------------------------------------------------
-        self.canvas_yx = draggable.MyFigureCanvas(self.df, self.header,
-                                                  '>ZYXR',
-                                                  '>ZYXI',
-                                                  '>RHOYX',
-                                                  '>PHSYX',
-                                                  'YX')
-        self.toolbar_yx = NavigationToolbar(self.canvas_yx, self)
-
-        self.verticalLayout_yx.addWidget(self.toolbar_yx, 1)
-        self.verticalLayout_yx.addWidget(self.canvas_yx, 100)
-        # -----------------------------------------------------------------------------------------------
-
-        # yy --------------------------------------------------------------------------------------------
-        self.canvas_yy = draggable.MyFigureCanvas(self.df, self.header,
-                                                  '>ZYYR',
-                                                  '>ZYYI',
-                                                  '>RHOYY',
-                                                  '>PHSYY',
-                                                  'YY')
-        self.toolbar_yy = NavigationToolbar(self.canvas_yy, self)
-
-        self.verticalLayout_yy.addWidget(self.toolbar_yy, 1)
-        self.verticalLayout_yy.addWidget(self.canvas_yy, 100)
+        #
+        # # XY --------------------------------------------------------------------------------------------
+        # self.canvas_xy = draggable.MyFigureCanvas(self.df, self.header,
+        #                                           '>ZXYR',
+        #                                           '>ZXYI',
+        #                                           '>RHOXY',
+        #                                           '>PHSXY',
+        #                                           'XY')
+        # self.toolbar_xy = NavigationToolbar(self.canvas_xy, self)
+        #
+        # self.verticalLayout_xy.addWidget(self.toolbar_xy, 1)
+        # self.verticalLayout_xy.addWidget(self.canvas_xy, 100)
+        #
+        # # -----------------------------------------------------------------------------------------------
+        #
+        # # yx --------------------------------------------------------------------------------------------
+        # self.canvas_yx = draggable.MyFigureCanvas(self.df, self.header,
+        #                                           '>ZYXR',
+        #                                           '>ZYXI',
+        #                                           '>RHOYX',
+        #                                           '>PHSYX',
+        #                                           'YX')
+        # self.toolbar_yx = NavigationToolbar(self.canvas_yx, self)
+        #
+        # self.verticalLayout_yx.addWidget(self.toolbar_yx, 1)
+        # self.verticalLayout_yx.addWidget(self.canvas_yx, 100)
+        # # -----------------------------------------------------------------------------------------------
+        #
+        # # yy --------------------------------------------------------------------------------------------
+        # self.canvas_yy = draggable.MyFigureCanvas(self.df, self.header,
+        #                                           '>ZYYR',
+        #                                           '>ZYYI',
+        #                                           '>RHOYY',
+        #                                           '>PHSYY',
+        #                                           'YY')
+        # self.toolbar_yy = NavigationToolbar(self.canvas_yy, self)
+        #
+        # self.verticalLayout_yy.addWidget(self.toolbar_yy, 1)
+        # self.verticalLayout_yy.addWidget(self.canvas_yy, 100)
+        # # -----------------------------------------------------------------------------------------------
+        #
+        # # ALL --------------------------------------------------------------------------------------------
+        # self.canvas_all = only_plot.MyFigureCanvas(self.df, self.header)
+        # self.toolbar_all = NavigationToolbar(self.canvas_all, self)
+        #
+        # self.verticalLayout_all.addWidget(self.toolbar_all, 1)
+        # self.verticalLayout_all.addWidget(self.canvas_all, 100)
         # -----------------------------------------------------------------------------------------------
 
         self.showMaximized()
