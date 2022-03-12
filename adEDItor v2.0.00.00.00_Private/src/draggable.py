@@ -10,20 +10,23 @@ from calculation import *
 
 class MyFigureCanvas(FigureCanvasQTAgg):
     def __init__(self, df, header, real, imaginary, rho, phs, label):
-        super(MyFigureCanvas, self).__init__(Figure())
+        super(MyFigureCanvas, self).__init__(Figure(tight_layout=True))
+
+        # init status
         self.status_1i = False
         self.status_1r = False
         self.status_2 = False
         self.status_3 = False
+        self.click_sta = False
 
-        # init class attributes:
+        # init class attributes
         self.background_1 = None
         self.background_2 = None
         self.background_3 = None
         self.index_of_frequency = None
         self.marker_size = 6
 
-        # read some data:
+        # init data parameter
         self.df = df
         self.header = header
         self.real = real
@@ -31,52 +34,83 @@ class MyFigureCanvas(FigureCanvasQTAgg):
         self.rho = rho
         self.phs = phs
 
+        c = None
+        self.deg = None
+        marker = None
+        if label == 'XX':
+            c = 'gold'
+            marker = '.'
+            self.deg = 0
+        elif label == 'XY':
+            c = 'r'
+            marker = '.'
+            self.deg = 0
+        elif label == 'YX':
+            c = 'b'
+            marker = '.'
+            self.deg = 180
+        elif label == 'YY':
+            c = 'lime'
+            marker = '.'
+            self.deg = 0
+
+        # self.df['>ZXXR'] = self.df['>ZXXR'].abs()
+        # self.df['>ZXXI'] = self.df['>ZXXI'].abs()
+        self.df['>ZXYR'] = self.df['>ZXYR'].abs()
+        self.df['>ZXYI'] = self.df['>ZXYI'].abs()
+        self.df['>ZYXR'] = self.df['>ZYXR'].abs()
+        self.df['>ZYXI'] = self.df['>ZYXI'].abs()
+        # self.df['>ZYYR'] = self.df['>ZYYR'].abs()
+        # self.df['>ZYYI'] = self.df['>ZYYI'].abs()
+
+        ''' add figure '''
         self.ax_1 = self.figure.add_subplot(1, 4, (3, 4))
         self.ax_2 = self.figure.add_subplot(3, 4, (1, 6))
         self.ax_3 = self.figure.add_subplot(3, 4, (9, 10))
-        self.figure.tight_layout()
 
         ''' calculation '''
         self.app_rho = cal_app_rho(self.df['>FREQ'],
                                    self.df[self.real],
                                    self.df[self.imaginary])
         self.pha = cal_pha(self.df[self.real],
-                           self.df[self.imaginary])
+                           self.df[self.imaginary],
+                           self.deg)
 
         ''' plot '''
         self.markers_1r, = self.ax_1.plot(self.df['>FREQ'],
-                                          self.df[self.real].abs(),
+                                          self.df[self.real],
                                           marker='.',
                                           c='m',
                                           ms=self.marker_size,
                                           label='Real')
         self.markers_1i, = self.ax_1.plot(self.df['>FREQ'],
-                                          self.df[self.imaginary].abs(),
+                                          self.df[self.imaginary],
                                           marker='.',
                                           c='c',
                                           ms=self.marker_size,
                                           label='Imaginary')
         self.markers_2, = self.ax_2.plot(self.df['>FREQ'], self.app_rho,
-                                         marker='.',
-                                         c='r',
+                                         marker=marker,
+                                         c=c,
                                          ms=self.marker_size,
                                          label=label)
         self.markers_3, = self.ax_3.plot(self.df['>FREQ'], self.pha,
-                                         marker='.',
-                                         c='r',
+                                         marker=marker,
+                                         c=c,
                                          ms=self.marker_size,
                                          label=label)
 
-        plot_setting(self.ax_1, self.ax_2, self.ax_3)
-        # define event connections:
+        plot_setting(self.ax_1, self.ax_2, self.ax_3, label)
+
+        ''' define event connections '''
         self.mpl_connect('button_press_event', self.on_click)
         self.mpl_connect('motion_notify_event', self.on_motion)
-        self.mpl_connect('button_release_event', self.on_release)
+        # self.mpl_connect('button_release_event', self.on_release)
 
     def on_click(self, event):
 
         """ this section is only implemented on the control chart """
-        if event.button == 1:  # 2 is for middle mouse button
+        if event.button == 1 and self.click_sta == False:  # 2 is for middle mouse button
 
             ''' get mouse cursor coordinates in pixels: '''
             x = event.x
@@ -112,6 +146,7 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                 # store index of draggable marker:
                 self.index_of_frequency = np.argmin(r_1i)
                 self.status_1i = True
+                self.click_sta = True
 
             elif np.min(r_1r) < self.marker_size:
                 # save figure background:
@@ -132,8 +167,26 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                 # store index of draggable marker:
                 self.index_of_frequency = np.argmin(r_1r)
                 self.status_1r = True
+                self.click_sta = True
             else:
                 self.index_of_frequency = None
+
+        elif event.button == 1 and self.click_sta == True:
+
+            if self.status_1i == True and self.status_1r == False:
+                self.df.at[self.index_of_frequency, self.imaginary] = event.ydata
+            if self.status_1r == True and self.status_1i == False:
+                self.df.at[self.index_of_frequency, self.real] = event.ydata
+
+            if self.status_1i == True or self.status_1r == True:
+                self.df.at[self.index_of_frequency, self.rho] = self.app_rho
+                self.df.at[self.index_of_frequency, self.phs] = self.pha
+
+            self.index_of_frequency = None
+            self.status_1i = False
+            self.status_1r = False
+            self.status_2 = False
+            self.click_sta = False
 
     def on_motion(self, event):
         if self.index_of_frequency is not None and event.xdata and event.ydata and event.xdata and event.ydata:
@@ -143,8 +196,6 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                 xdata_1r, ydata_1r = self.markers_1r.get_data()
                 xdata_2, ydata_2 = self.markers_2.get_data()  # app resistivity curve
                 xdata_3, ydata_3 = self.markers_3.get_data()  # phase
-
-                # print('motion', event.xdata, event.ydata)
 
                 if self.status_1i == True and self.status_1r == False:
 
@@ -170,7 +221,8 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                                                self.df[self.real][self.index_of_frequency],
                                                event.ydata)
                     self.pha = cal_pha(self.df[self.real][self.index_of_frequency],
-                                       event.ydata)
+                                       event.ydata,
+                                       self.deg)
 
                     ydata_2[self.index_of_frequency] = self.app_rho
                     ydata_3[self.index_of_frequency] = self.pha
@@ -210,7 +262,8 @@ class MyFigureCanvas(FigureCanvasQTAgg):
                                                event.ydata,
                                                self.df[self.imaginary][self.index_of_frequency])
                     self.pha = cal_pha(event.ydata,
-                                       self.df[self.imaginary][self.index_of_frequency])
+                                       self.df[self.imaginary][self.index_of_frequency],
+                                       self.deg)
 
                     ydata_2[self.index_of_frequency] = self.app_rho
                     ydata_3[self.index_of_frequency] = self.pha
@@ -250,7 +303,7 @@ class MyFigureCanvas(FigureCanvasQTAgg):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    canvas = MyFigureCanvas()
+    canvas = MyFigureCanvas('df', 'header', 'real', 'imaginary', 'rho', 'phs', 'label')
     manager = FigureManagerQT(canvas, 1)
     manager.show()
 

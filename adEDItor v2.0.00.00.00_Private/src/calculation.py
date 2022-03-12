@@ -18,7 +18,7 @@ def cal_app_rho(freq, real, imaginary):
     return app_rho
 
 
-def cal_pha(real, imaginary):
-    pha = (np.arctan(imaginary / real)) / np.pi * 180
+def cal_pha(real, imaginary, deg):
+    pha = ((np.arctan2(imaginary, real)) / np.pi * 180) - deg
 
     return pha

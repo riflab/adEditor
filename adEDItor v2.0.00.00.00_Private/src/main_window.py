@@ -19,13 +19,27 @@ class Ui(QtWidgets.QMainWindow):
 
         self.action_open_edi_file.triggered.connect(lambda: self.action_open_edi_file_clicked())
         # self.df, self.header = read_edi('MTCU001A.edi')
-        self.df, self.header = read_edi('MT_001.edi')
+        self.df, self.header = read_edi('../data/MT-001.edi')
 
         # self.commandLinkButtonRun.clicked.connect(lambda: self.button_click())
 
         # self.actionClose.triggered.connect(lambda: window_close(Ui))
         # self.actionAbout.triggered.connect(lambda: form_about())
         # self.actionTutorial.triggered.connect(lambda: open_web_browser())
+
+        # XX --------------------------------------------------------------------------------------------
+        self.canvas_xx = draggable.MyFigureCanvas(self.df, self.header,
+                                                  '>ZXXR',
+                                                  '>ZXXI',
+                                                  '>RHOXX',
+                                                  '>PHSXX',
+                                                  'XX')
+        self.toolbar_xx = NavigationToolbar(self.canvas_xx, self)
+
+        self.verticalLayout_xx.addWidget(self.toolbar_xx, 1)
+        self.verticalLayout_xx.addWidget(self.canvas_xx, 100)
+
+        # -----------------------------------------------------------------------------------------------
 
         # XY --------------------------------------------------------------------------------------------
         self.canvas_xy = draggable.MyFigureCanvas(self.df, self.header,
@@ -42,11 +56,29 @@ class Ui(QtWidgets.QMainWindow):
         # -----------------------------------------------------------------------------------------------
 
         # yx --------------------------------------------------------------------------------------------
-        # self.canvas_yx = draggable.MyFigureCanvas(self.df, self.header)
-        # self.toolbar_yx = NavigationToolbar(self.canvas_yx, self)
-        #
-        # self.verticalLayout_yx.addWidget(self.toolbar_yx, 1)
-        # self.verticalLayout_yx.addWidget(self.canvas_yx, 100)
+        self.canvas_yx = draggable.MyFigureCanvas(self.df, self.header,
+                                                  '>ZYXR',
+                                                  '>ZYXI',
+                                                  '>RHOYX',
+                                                  '>PHSYX',
+                                                  'YX')
+        self.toolbar_yx = NavigationToolbar(self.canvas_yx, self)
+
+        self.verticalLayout_yx.addWidget(self.toolbar_yx, 1)
+        self.verticalLayout_yx.addWidget(self.canvas_yx, 100)
+        # -----------------------------------------------------------------------------------------------
+
+        # yy --------------------------------------------------------------------------------------------
+        self.canvas_yy = draggable.MyFigureCanvas(self.df, self.header,
+                                                  '>ZYYR',
+                                                  '>ZYYI',
+                                                  '>RHOYY',
+                                                  '>PHSYY',
+                                                  'YY')
+        self.toolbar_yy = NavigationToolbar(self.canvas_yy, self)
+
+        self.verticalLayout_yy.addWidget(self.toolbar_yy, 1)
+        self.verticalLayout_yy.addWidget(self.canvas_yy, 100)
         # -----------------------------------------------------------------------------------------------
 
         self.showMaximized()
